@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS en mode de like en ligne sans télécharger -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Employee Directory</title>
+
+</head>
+<body>
+<div class="container">
+    <h3>Employee directory</h3>
+    <hr> <!--un trait-->
+    <div>
+        User:  <span sec:authentication="name"></span>
+        <br>
+        Role(s):  <span sec:authentication="principal.authorities"></span>
+    </div>
+    <!-- Add a button, @ symbol Reference context path of your application (app-root) -->
+    <form th:action="@{/employees/search}" class="form-inline">
+
+        <a th:href="@{/employees/showFormForAdd}"
+           class="btn btn-primary btn-sm mb-3">Add Employee</a>
+
+        <input class="form-control ml-5 mr-sm-2 mb-3" type="search" name="employeeName"
+        placeholder="Search by name" />
+        <button class="btn btn-success mb-3" type="submit">Search</button>
+
+        <din class="fs-2">
+            <a th:href="@{/employees/list}">Back to Employees List</a>
+        </din>
+
+    </form>
+
+    <!-- Button Button Primary Button Small Margin Button, 3 pixels  -->
+    <table class="table table-bordered table-striped">
+        <!-- Build HTML table based on employees-->
+        <thead class="bg-dark text-white">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <div sec:authorize="hasAnyRole('MANAGER', 'ADMIN')">
+                <th>Action</th>
+            </div>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tempEmployee : ${employees}">
+            <td th:text="${tempEmployee.firstName}"></td>
+            <td th:text="${tempEmployee.lastName}"></td>
+            <td th:text="${tempEmployee.email}"></td>
+
+            <div sec:authorize="hasAnyRole('MANAGER','ADMIN')">
+
+                <td>
+
+                    <div sec:authorize="hasAnyRole('MANAGER','ADMIN')">
+                        <!--Ad update button/link,
+              GetMapping @RequestParam("employeeId") int empId which(tempEmployee) load the Employee
+              then put the employeeId inside of method  -->
+                        <a th:href="@{/employees/showFormForUpdate(employeeId=${tempEmployee.id})}" class="btn btn-info btn-sm">
+                            Update</a>
+                    </div>
+                    <div sec:authentize="hasRole('ADMIN')">
+                        <!--Add delete button/link-->
+                        <a th:href="@{/employees/delete(employeeId=${tempEmployee.id})}" class="btn btn-danger btn-sm"
+                           onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">Delete</a>
+                    </div>
+                </td>
+
+            </div>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Add a logout button -->
+    <form action="#" th:action="@{/logout}"
+          method="POST">
+        <input type="submit" value="Logout" class="btn btn-outline-primary mt-2" />
+
+    </form>
+</div>
+</body>
+</html>

@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        logger.info("configure(WebSecurityConfig), the request goes --> ");
         http.authorizeRequests()
                 .antMatchers("/employees/showForm*").hasAnyRole("MANAGER", "ADMIN")
                 .antMatchers("/employees/save*").hasAnyRole("MANAGER", "ADMIN")
@@ -34,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**").permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/showMyLoginPage")
+                .loginPage("/loginPage")
                 .loginProcessingUrl("/authenticateTheUser")
                 .permitAll()
                 .and()
@@ -44,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        logger.info("Configure AuthenticationManagerBuilder(WebSecurityConfig) is working..");
         logger.info("Configure(WebSecurityConfig), is working for authentication with username and password!");
         auth.userDetailsService(userDetailsService);
     }

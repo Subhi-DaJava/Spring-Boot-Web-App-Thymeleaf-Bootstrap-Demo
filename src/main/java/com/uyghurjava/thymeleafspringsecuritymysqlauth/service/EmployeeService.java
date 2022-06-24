@@ -10,7 +10,7 @@ public interface EmployeeService {
     Employee findById(int empId);
     void save(Employee employee);
 
-    void delete(int empId);
+    void deleteById(int empId);
 
     List<Employee>  searchBy(String empName);
 }
