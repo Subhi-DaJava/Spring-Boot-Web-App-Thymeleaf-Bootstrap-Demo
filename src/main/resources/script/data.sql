@@ -39,7 +39,7 @@ VALUES
 
 INSERT INTO `roles`(name)
 VALUES
-    ('ROLE_EMPLOYEE'),
-    ('ROLE_MANAGER'),
-    ('ROLE_ADMIN');
+    ('EMPLOYEE'),
+    ('MANAGER'),
+    ('ADMIN');
 
