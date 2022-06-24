@@ -45,7 +45,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <div sec:authorize="hasAnyRole('MANAGER', 'ADMIN')">
+            <div sec:authorize="hasAnyAuthority('MANAGER', 'ADMIN')">
                 <th>Action</th>
             </div>
         </tr>
@@ -56,18 +56,18 @@
             <td th:text="${tempEmployee.lastName}"></td>
             <td th:text="${tempEmployee.email}"></td>
 
-            <div sec:authorize="hasAnyRole('MANAGER','ADMIN')">
+            <div sec:authorize="hasAnyAuthority('MANAGER','ADMIN')">
 
                 <td>
 
-                    <div sec:authorize="hasAnyRole('MANAGER','ADMIN')">
+                    <div sec:authorize="hasAnyAuthority('MANAGER','ADMIN')">
                         <!--Ad update button/link,
               GetMapping @RequestParam("employeeId") int empId which(tempEmployee) load the Employee
               then put the employeeId inside of method  -->
                         <a th:href="@{/employees/showFormForUpdate(employeeId=${tempEmployee.id})}" class="btn btn-info btn-sm">
                             Update</a>
                     </div>
-                    <div sec:authentize="hasRole('ADMIN')">
+                    <div sec:authentize="hasAuthority('ADMIN')">
                         <!--Add delete button/link-->
                         <a th:href="@{/employees/delete(employeeId=${tempEmployee.id})}" class="btn btn-danger btn-sm"
                            onclick="if (!(confirm('Are you sure you want to delete this employee?'))) return false">Delete</a>

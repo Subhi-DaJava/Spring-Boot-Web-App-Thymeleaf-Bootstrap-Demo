@@ -28,10 +28,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         logger.info("configure(WebSecurityConfig), the request goes --> ");
         http.authorizeRequests()
-                .antMatchers("/employees/showForm*").hasAnyRole("MANAGER", "ADMIN")
-                .antMatchers("/employees/save*").hasAnyRole("MANAGER", "ADMIN")
-                .antMatchers("/employees/delete").hasRole("ADMIN")
-                .antMatchers("/employees/**").hasRole("EMPLOYEE")
+                .antMatchers("/employees/showForm*").hasAnyAuthority("MANAGER", "ADMIN")
+                .antMatchers("/employees/save*").hasAnyAuthority("MANAGER", "ADMIN")
+                .antMatchers("/employees/delete").hasAuthority("ADMIN")
+                .antMatchers("/employees/**").hasAuthority("EMPLOYEE")
                 .antMatchers("/resources/**").permitAll()
                 .and()
                 .formLogin()
